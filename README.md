@@ -1,24 +1,43 @@
 # Итоговый проект курса "Машинное обучение в бизнесе"
 
+
 Стек:
-1. ML: sklearn, pandas, numpy, lightgbm
-2. API: flask
 
-Данные: с kaggle - https://www.kaggle.com/kemical/kickstarter-projects
+ML: sklearn, pandas, numpy
+API: flask
+Данные: данные первичного медицинского осмотра
 
-Задача: предсказать по входным данным вероятность успешного привлечения денежных средств по схеме краудфандинга. Бинарная классификация.
+Задача:  определить вероятность наличия сердечно-сосудистых заболеваний (поле cardio). Бинарная классификация
 
 Используемые признаки:
-1. name (text)
-2. category (text)
-3. main_category (text)
-4. country (text)
-5. launched (date)
-6. deadline (date)
-7. usd_goal_real (float)
 
-Целевая переменная: state
+- age (int64)
+- gender (int64)
+- height (int64)
+- weight (float64)
+- ap_hi (int64)
+- ap_lo (int64)
+- cholesterol (int64)
+- gluc (int64)
+- smoke (int64)
+- alco (int64)
+- active (int64)
 
-Преобразования: tfidf
+Преобразования признаков: StandardScaler, OHEEncoder
 
-Модель: lightgbm
+Модель: CatBoost
+
+### Клонируем репозиторий и создаем образ
+```
+$ git clone https://github.com/Ta-ti-Alex/GB_MOB.git
+$ cd GB_MOB
+$ docker build -t gb_docker_flask .
+```
+
+### Запускаем контейнер
+
+Здесь Вам нужно создать каталог локально и сохранить туда предобученную модель (<your_local_path_to_pretrained_models> нужно заменить на полный путь к этому каталогу)
+```
+$ docker run -d -p 8180:8180 -v <your_local_path_to_pretrained_models>:/app/app/models gb_docker_flask
+```
+
